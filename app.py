@@ -6,9 +6,9 @@ import sqlite3
 app = Flask(__name__)
 app.secret_key = 'secret_key123'
 
-login_manager = LoginManager()
-login_manager.init_app(app)
+login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+
 database = 'banco.db'
 
 class User(UserMixin):
@@ -27,6 +27,10 @@ def load_user(user_id):
 def conectar():
     conn = sqlite3.connect(database)
     return conn
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
